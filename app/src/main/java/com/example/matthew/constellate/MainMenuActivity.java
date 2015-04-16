@@ -1,16 +1,18 @@
 package com.example.matthew.constellate;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-public class Main extends ActionBarActivity {
+public class MainMenuActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_view);
+        setContentView(R.layout.activity_menu);
     }
 
     @Override
@@ -33,5 +35,17 @@ public class Main extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void openExplore(View view)
+    {
+        Intent intent = new Intent(this, ExploreActivity.class);
+        startActivity(intent);
+    }
+
+    public void openCollection(View view)
+    {
+        Intent intent = new Intent(this, CollectionActivity.class);
+        startActivity(intent);
     }
 }
