@@ -14,7 +14,7 @@ import android.widget.ImageView;
 /**
  * Created by Matthew on 4/16/2015.
  */
-public class TouchImageView extends ImageView{
+public class TouchImageView extends ImageView {
     static final int CLICK = 3; // If you're finger moves less than this
     protected float origWidth, origHeight;
 
@@ -26,7 +26,7 @@ public class TouchImageView extends ImageView{
     ScaleGestureDetector mScaleDetector;
 
     int viewWidth, viewHeight;
-    int oldMeasuredWidth, oldMeasureHeight;
+    int oldMeasuredWidth, oldMeasuredHeight;
     float minScale = 1f;
     float saveScale = 1f;
     float maxScale = 3f;
@@ -109,11 +109,9 @@ public class TouchImageView extends ImageView{
         maxScale = x;
     }
 
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener
-    {
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
-        public boolean onScaleBegin(ScaleGestureDetector detector)
-        {
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
             mode = State.ZOOM;
             return true;
         }
@@ -227,4 +225,5 @@ public class TouchImageView extends ImageView{
 
         fixTrans();
     }
+}
 

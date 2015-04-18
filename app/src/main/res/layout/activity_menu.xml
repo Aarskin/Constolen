@@ -1,32 +1,44 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/constellate" />
 
     <Button
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="@string/explore"
         android:onClick="openExplore"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:id="@+id/explore_button"/>
+        android:id="@+id/explore_button"
+        android:layout_above="@+id/button"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:layout_above="@id/explore_button"
+        android:textSize="@dimen/abc_text_size_display_3_material"
+        android:textColor="@color/abc_primary_text_material_dark"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/abc_text_size_display_3_material" />
+        android:layout_marginTop="19dp" />
 
     <Button
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:text="@string/collection"
         android:onClick="openCollection"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/explore_button"/>
+        android:id="@+id/button"
+        android:layout_marginBottom="41dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
 
 </RelativeLayout>

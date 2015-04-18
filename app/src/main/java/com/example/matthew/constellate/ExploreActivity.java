@@ -11,7 +11,13 @@ public class ExploreActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_explore);
+
+        TouchImageView img = new TouchImageView(this);
+        img.setImageResource(R.drawable.constellate);
+        img.setMaxZoom(4f);
+        img.set
+
+        setContentView(img);
     }
 
     @Override
