@@ -14,7 +14,7 @@ import android.widget.ImageView;
 /**
  * Created by Matthew on 4/16/2015.
  */
-public class TouchImageView {
+public class TouchImageView extends ImageView{
     static final int CLICK = 3; // If you're finger moves less than this
     protected float origWidth, origHeight;
 
