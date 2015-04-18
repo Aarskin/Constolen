@@ -15,7 +15,6 @@ public class ExploreActivity extends ActionBarActivity {
         TouchImageView img = new TouchImageView(this);
         img.setImageResource(R.drawable.constellate);
         img.setMaxZoom(4f);
-        img.set
 
         setContentView(img);
     }
