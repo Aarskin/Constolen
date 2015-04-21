@@ -1,4 +1,4 @@
-package com.nderr.jconstellate;
+package com.example.matthew.constellate;
 
 import java.io.File;
 import java.io.IOException;

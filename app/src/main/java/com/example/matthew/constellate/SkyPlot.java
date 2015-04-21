@@ -1,4 +1,4 @@
-package com.nderr.jconstellate;
+package com.example.matthew.constellate;
 
 // refactor this to display on android!
 
