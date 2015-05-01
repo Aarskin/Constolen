@@ -4,19 +4,28 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.example.matthew.constellate.Stargazer;
 
 
-public class ExploreActivity extends ActionBarActivity {
+public class ExploreActivity extends AndroidApplication {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        boolean useOpenGLES2 = false;
 
+        super.onCreate(savedInstanceState);
+        initialize(new Stargazer());
+
+        /*
         TouchImageView img = new TouchImageView(this);
         img.setImageResource(R.drawable.constellate);
         img.setMaxZoom(4f);
 
         setContentView(img);
+        */
     }
 
     @Override

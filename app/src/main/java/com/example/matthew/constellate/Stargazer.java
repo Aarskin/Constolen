@@ -23,6 +23,7 @@ public class Stargazer implements ApplicationListener
     public PerspectiveCamera cam;
     public ModelInstance instance;
     public ModelBatch modelBatch;
+    public ModelBuilder modelBuilder;
 
     @Override
     public void create()
@@ -35,7 +36,8 @@ public class Stargazer implements ApplicationListener
         cam.update();
 
         // Create obj to test rendering
-        ModelBuilder modelBuilder = new ModelBuilder();
+        modelBuilder = new ModelBuilder();
+        modelBatch = new ModelBatch();
 
         model = modelBuilder.createBox(5f, 5f, 5f,
                 new Material(ColorAttribute.createDiffuse(Color.RED)),
