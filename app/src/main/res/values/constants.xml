@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string type="string" name="api_url">http://constellate.space/api/v1</string>
+    <string type="string" name="user_endpoint">/user</string>
+    <string type="string" name="const_endpoint">/constellation</string>
+    <string type="string" name="const-by-star_endpoint">/constellation/star</string>
+</resources>

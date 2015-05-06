@@ -10,5 +10,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
+    <string name="prompt_email">Email</string>
 
 </resources>
