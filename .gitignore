@@ -12,3 +12,6 @@ gradle.properties
 gradlew
 gradlew.bat
 settings.gradle
+constellate-app.iml
+out/
+app/src/main/gen/
