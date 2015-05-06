@@ -15,6 +15,8 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.Random;
+
 /**
  * Created by Matthew on 4/20/2015.
  */
@@ -62,22 +64,19 @@ public class Stargazer implements ApplicationListener
 
     public void loadStars()
     {
-        for(int i = 0; i < 15; i++)
+        float x, y, z;
+
+        for(int i = 0; i < 100; i++)
         {
-            model = modelBuilder.createSphere(0.5f, 0.5f, 0.5f, 15, 15,
+            x = new Random().nextFloat()*100;
+            y = new Random().nextFloat()*100;
+            z = new Random().nextFloat()*100;
+
+            model = modelBuilder.createSphere(0.25f, 0.25f, 0.25f, 5, 5,
                     new Material(ColorAttribute.createDiffuse(Color.WHITE)),
                     VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
 
-            if(i<3)
-                inst = new ModelInstance(model, 0f, 0f, 5f+i);
-            else if(i<6)
-                inst = new ModelInstance(model, -0.5f, -0.5f, 5f+(i-3));
-            else if(i<9)
-                inst = new ModelInstance(model, 0.5f, 0.5f, 5f+(i-6));
-            else if(i<12)
-                inst = new ModelInstance(model, -0.5f, 0.5f, 5f+(i-9));
-            else if(i<15)
-                inst = new ModelInstance(model, 0.5f, -0.5f, 5f+(i-12));
+            inst = new ModelInstance(model, x, y, z);
 
             instances.add(inst);
         }

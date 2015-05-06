@@ -3,6 +3,7 @@ package com.example.matthew.constellate;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by Matthew on 5/5/2015.
@@ -52,9 +53,14 @@ public class PanningController implements GestureListener
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY)
     {
-        //cam.rotateAround(cam.position, cam.position.x);
-        cam.translate(0.01f*deltaX, 0.01f*deltaY, 0);
+        Vector3 yAxis = new Vector3(0f, 1f, 0f);
+        Vector3 xAxis = new Vector3(1f, 0f, 0f);
+        Vector3 zAxis = new Vector3(0f, 0f, 1f);
+
+        cam.rotate(xAxis, -0.1f*deltaY);
+        cam.rotate(yAxis, -0.1f*deltaX);
         cam.update();
+
         return true;
     }
 
