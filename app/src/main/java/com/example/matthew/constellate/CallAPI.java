@@ -9,6 +9,12 @@ import java.net.URL;
 
 class CallAPI extends AsyncTask<String, String, String> {
 
+    ResponseListener responseListener;
+
+    public CallAPI(ResponseListener responseListener) {
+        this.responseListener = responseListener;
+    }
+
     @Override
     protected String doInBackground(String... params) {
         String apiURL           = params[0];
@@ -62,8 +68,12 @@ class CallAPI extends AsyncTask<String, String, String> {
         return response.toString();
     }
 
+    @Override
     protected void onPostExecute(String result) {
-
+        responseListener.responseReceived(result);
     }
 
+    public interface ResponseListener {
+        void responseReceived(String response);
+    }
 }
