@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="api_url">http://constellate.space/api/v1/</string>
+    <string name="auth_endpoint">authenticate</string>
+    <string name="user_endpoint">user/</string>
+    <string name="const_endpoint">constellation/</string>
+    <string name="const_by_star_endpoint">constellation/star/</string>
+</resources>
