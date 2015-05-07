@@ -1,5 +1,6 @@
 package com.example.matthew.constellate;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,16 +17,10 @@ public class ExploreActivity extends AndroidApplication {
     {
         boolean useOpenGLES2 = false;
 
+        Context context = getApplicationContext();
+
         super.onCreate(savedInstanceState);
-        initialize(new Stargazer());
-
-        /*
-        TouchImageView img = new TouchImageView(this);
-        img.setImageResource(R.drawable.constellate);
-        img.setMaxZoom(4f);
-
-        setContentView(img);
-        */
+        initialize(new Stargazer(context));
     }
 
     @Override
