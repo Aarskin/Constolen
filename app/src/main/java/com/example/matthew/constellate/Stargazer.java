@@ -41,8 +41,10 @@ public class Stargazer implements ApplicationListener
     public Scanner reader;
     public Context context;
     public ShapeRenderer draw;
+    public Vector3[] locs;
 
     private int NUM_STARS = 520;
+    private int SCALAR = 255;
     private float VIEW_MIN = 1f;
     private float VIEW_MAX = 300f;
 
@@ -73,6 +75,7 @@ public class Stargazer implements ApplicationListener
         gread = new Gson();
         reader = new Scanner(context.getResources().openRawResource(R.raw.stars));
         draw = new ShapeRenderer();
+        locs = new Vector3[NUM_STARS];
 
         while(reader.hasNextLine())
             stars.add(gread.fromJson(reader.nextLine(), Star.class));
@@ -82,23 +85,28 @@ public class Stargazer implements ApplicationListener
 
     public void loadStars()
     {
+        Star star;
         Vector nick_vector;
         float x, y, z, mag;
 
         for(int i = 0; i < NUM_STARS; i++)
         {
-            mag = (float)stars.get(i).getMag();
-            nick_vector = stars.get(i).getHat();
-            x = (float)nick_vector.getX();
-            y = (float)nick_vector.getY();
-            z = (float)nick_vector.getZ();
+            star = stars.get(i);
+
+            mag = (float)star.getMag();
+            nick_vector = star.getHat();
+            x = SCALAR*(float)nick_vector.getX();
+            y = SCALAR*(float)nick_vector.getY();
+            z = SCALAR*(float)nick_vector.getZ();
+
+            locs[i] = new Vector3(x, y, z);
 
             model = modelBuilder.createSphere(mag, mag, mag, 10, 10,
                         new Material(ColorAttribute.createDiffuse(Color.WHITE)),
                         VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
 
             // Create the model scaled by the specified coordinates
-            inst = new ModelInstance(model, 255*x, 255*y, 255*z);
+            inst = new ModelInstance(model, x, y, z);
             instances.add(inst);
         }
     }
@@ -113,7 +121,8 @@ public class Stargazer implements ApplicationListener
         draw.setProjectionMatrix(cam.combined);
         draw.begin(ShapeRenderer.ShapeType.Line);
         draw.setColor(Color.GREEN);
-        draw.line(new Vector3(-1f, -1, 5f), new Vector3(1f, 1f, 5f));
+        for(int i = 0; i < NUM_STARS-1; i++)
+            draw.line(locs[i], locs[i+1]);
         draw.end();
 
         modelBatch.begin(cam);
