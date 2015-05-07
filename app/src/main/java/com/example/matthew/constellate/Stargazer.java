@@ -1,5 +1,7 @@
 package com.example.matthew.constellate;
 
+import android.content.Context;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -13,9 +15,13 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Created by Matthew on 4/20/2015.
@@ -29,6 +35,18 @@ public class Stargazer implements ApplicationListener
     public Array<ModelInstance> instances;
     public ModelBatch modelBatch;
     public ModelBuilder modelBuilder;
+    public ArrayList<Star> stars;
+    public Gson gread;
+    public Scanner reader;
+    public Context context;
+
+    private int NUM_STARS = 520;
+    private float VIEW_MIN = 1f;
+    private float VIEW_MAX = 300f;
+
+    public Stargazer(Context c) {
+        context = c;
+    }
 
     @Override
     public void create()
@@ -37,8 +55,8 @@ public class Stargazer implements ApplicationListener
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.position.set(0f, 0f, 0f);
         cam.lookAt(0f, 0f, 5f);
-        cam.near = 1f;
-        cam.far = 300f;
+        cam.near = VIEW_MIN;
+        cam.far = VIEW_MAX;
         cam.update();
 
         // Want to rotate when panning
@@ -49,35 +67,34 @@ public class Stargazer implements ApplicationListener
         modelBuilder = new ModelBuilder();
         modelBatch = new ModelBatch();
         instances = new Array<ModelInstance>();
+        stars = new ArrayList<Star>();
+        gread = new Gson();
+        reader = new Scanner(context.getResources().openRawResource(R.raw.stars));
 
-        /*
-        // Sample box model, replace with star population
-        model = modelBuilder.createBox(1f, 1f, 1f,
-                new Material(ColorAttribute.createDiffuse(Color.RED)),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-         */
-
-
+        while(reader.hasNextLine())
+            stars.add(gread.fromJson(reader.nextLine(), Star.class));
 
         loadStars();
     }
 
     public void loadStars()
     {
+        Vector nick_vector;
         float x, y, z;
 
-        for(int i = 0; i < 100; i++)
+        for(int i = 0; i < NUM_STARS; i++)
         {
-            x = new Random().nextFloat()*100;
-            y = new Random().nextFloat()*100;
-            z = new Random().nextFloat()*100;
+            nick_vector = stars.get(i).getHat();
+            x = (float)nick_vector.getX();
+            y = (float)nick_vector.getY();
+            z = (float)nick_vector.getZ();
 
-            model = modelBuilder.createSphere(0.25f, 0.25f, 0.25f, 5, 5,
-                    new Material(ColorAttribute.createDiffuse(Color.WHITE)),
-                    VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+            model = modelBuilder.createSphere(0.25f, 0.25f, 0.25f, 10, 10,
+                        new Material(ColorAttribute.createDiffuse(Color.WHITE)),
+                        VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
 
-            inst = new ModelInstance(model, x, y, z);
-
+            // Create the model scaled by the specified coordinates
+            inst = new ModelInstance(model, 55*x, 55*y, 55*z);
             instances.add(inst);
         }
     }
