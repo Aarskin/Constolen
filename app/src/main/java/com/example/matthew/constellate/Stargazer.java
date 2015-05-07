@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -39,6 +40,7 @@ public class Stargazer implements ApplicationListener
     public Gson gread;
     public Scanner reader;
     public Context context;
+    public ShapeRenderer draw;
 
     private int NUM_STARS = 520;
     private float VIEW_MIN = 1f;
@@ -70,6 +72,7 @@ public class Stargazer implements ApplicationListener
         stars = new ArrayList<Star>();
         gread = new Gson();
         reader = new Scanner(context.getResources().openRawResource(R.raw.stars));
+        draw = new ShapeRenderer();
 
         while(reader.hasNextLine())
             stars.add(gread.fromJson(reader.nextLine(), Star.class));
@@ -80,10 +83,11 @@ public class Stargazer implements ApplicationListener
     public void loadStars()
     {
         Vector nick_vector;
-        float x, y, z;
+        float x, y, z, mag;
 
         for(int i = 0; i < NUM_STARS; i++)
         {
+            mag = (float)stars.get(i).getMag();
             nick_vector = stars.get(i).getHat();
             x = (float)nick_vector.getX();
             y = (float)nick_vector.getY();
@@ -104,6 +108,13 @@ public class Stargazer implements ApplicationListener
     {
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        cam.update();
+        draw.setProjectionMatrix(cam.combined);
+        draw.begin(ShapeRenderer.ShapeType.Line);
+        draw.setColor(Color.GREEN);
+        draw.line(new Vector3(-1f, -1, 5f), new Vector3(1f, 1f, 5f));
+        draw.end();
 
         modelBatch.begin(cam);
         modelBatch.render(instances);
