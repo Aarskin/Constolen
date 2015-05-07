@@ -93,12 +93,12 @@ public class Stargazer implements ApplicationListener
             y = (float)nick_vector.getY();
             z = (float)nick_vector.getZ();
 
-            model = modelBuilder.createSphere(0.25f, 0.25f, 0.25f, 10, 10,
+            model = modelBuilder.createSphere(mag, mag, mag, 10, 10,
                         new Material(ColorAttribute.createDiffuse(Color.WHITE)),
                         VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
 
             // Create the model scaled by the specified coordinates
-            inst = new ModelInstance(model, 55*x, 55*y, 55*z);
+            inst = new ModelInstance(model, 255*x, 255*y, 255*z);
             instances.add(inst);
         }
     }
