@@ -10,10 +10,29 @@ import android.view.View;
 
 public class MainActivity extends ActionBarActivity {
 
+    // Global singleton
+    Constellate global;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Assign global singleton
+        global = ((Constellate) this.getApplication());
+
+        if (global.authenticatedUser != null && !global.authenticatedUser.getToken().equals("")) {
+            openMainMenu();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onResume() {
+        if (global.authenticatedUser != null && !global.authenticatedUser.getToken().equals("")) {
+            openMainMenu();
+        }
+
+        super.onResume();
     }
 
     @Override
@@ -41,6 +60,12 @@ public class MainActivity extends ActionBarActivity {
     public void openLogin(View view)
     {
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void openMainMenu()
+    {
+        Intent intent = new Intent(this, MainMenuActivity.class);
         startActivity(intent);
     }
 }

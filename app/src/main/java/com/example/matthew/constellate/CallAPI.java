@@ -61,7 +61,6 @@ class CallAPI extends AsyncTask<String, String, String> {
             // Close connection
             connection.disconnect();
         } catch (Exception e ) {
-            System.out.println(e.getMessage());
             return e.getMessage();
         }
 
