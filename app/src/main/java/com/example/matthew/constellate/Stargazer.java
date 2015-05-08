@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.Array;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -39,6 +40,7 @@ public class Stargazer implements ApplicationListener
     public ModelBatch modelBatch;
     public ModelBuilder modelBuilder;
     public ArrayList<Star> stars;
+    public HashMap<Integer, Star> hashStars;
     public ArrayList<Vector3> selected;
     public Gson gread;
     public Scanner reader;
@@ -47,16 +49,19 @@ public class Stargazer implements ApplicationListener
     public Vector3[] locs;
     public BitmapFont font;
     public SpriteBatch batch;
+    public ArrayList<Constellation> constellations;
+    public Star star;
 
     private int NUM_STARS = 520;
     private float SCALAR = 255f;
     private float VIEW_MIN = 1f;
     private Constellate global;
 
-    public Stargazer(Constellate act, Context c)
+    public Stargazer(Constellate act, Context c, ArrayList<Constellation> cs)
     {
         global = act;
         context = c;
+        constellations = cs;
     }
 
     @Override
@@ -70,7 +75,7 @@ public class Stargazer implements ApplicationListener
         cam.far = SCALAR;
         cam.update();
 
-        // Create obj to test rendering
+        // Instantiate
         modelBuilder = new ModelBuilder();
         modelBatch = new ModelBatch();
         instances = new Array<ModelInstance>();
@@ -80,6 +85,8 @@ public class Stargazer implements ApplicationListener
         draw = new ShapeRenderer();
         locs = new Vector3[NUM_STARS];
         selected = new ArrayList<Vector3>();
+        hashStars = new HashMap<Integer, Star>();
+        star = new Star();
 
         // Want to rotate when panning
         rotate = new GestureDetector((new PanningController(this)));
@@ -89,8 +96,11 @@ public class Stargazer implements ApplicationListener
         font = new BitmapFont();
         font.setColor(Color.YELLOW);
 
-        while(reader.hasNextLine())
-            stars.add(gread.fromJson(reader.nextLine(), Star.class));
+        while(reader.hasNextLine()) {
+            star = gread.fromJson(reader.nextLine(), Star.class);
+            stars.add(star);
+            hashStars.put(star.ID_NUM, star);
+        }
 
         loadStars();
     }
@@ -134,8 +144,7 @@ public class Stargazer implements ApplicationListener
         draw.setProjectionMatrix(cam.combined);
         draw.begin(ShapeRenderer.ShapeType.Line);
         draw.setColor(Color.GREEN);
-        for(int i = 0; i < NUM_STARS-1; i++)
-            draw.line(locs[i], locs[i+1]);
+        drawConstellations();
         draw.end();
 
         // Render coordinates
@@ -147,6 +156,41 @@ public class Stargazer implements ApplicationListener
         modelBatch.begin(cam);
         modelBatch.render(instances);
         modelBatch.end();
+    }
+
+    private void drawConstellations()
+    {
+        Star s1, s2;
+        Vector n1, n2;
+        float x1, x2;
+        float y1, y2;
+        float z1, z2;
+        Vector3 v1, v2;
+
+        // Draw lines between all the pairs!
+        for(Constellation con : constellations)
+        {
+            for(StarPair pair : con.pairs)
+            {
+                s1 = hashStars.get(pair.star1);
+                s2 = hashStars.get(pair.star2);
+                n1 = s1.getHat();
+                n2 = s2.getHat();
+
+                x1 = SCALAR*(float)n1.getX();
+                y1 = SCALAR*(float)n1.getY();
+                z1 = SCALAR*(float)n1.getZ();
+
+                x2 = SCALAR*(float)n2.getX();
+                y2 = SCALAR*(float)n2.getY();
+                z2 = SCALAR*(float)n2.getZ();
+
+                v1 = new Vector3(x1, y1, z1);
+                v2 = new Vector3(x2, y2, z2);
+
+                draw.line(v1, v2);
+            }
+        }
     }
 
     @Override
