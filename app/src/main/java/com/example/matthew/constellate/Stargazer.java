@@ -23,7 +23,6 @@ import com.badlogic.gdx.utils.Array;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
