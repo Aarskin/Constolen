@@ -66,7 +66,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
-        setupActionBar();
 
         // Assign global singleton
         global = ((ConstellateGlobals) this.getApplication());
@@ -104,17 +103,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     /**
-     * Set up the {@link android.app.ActionBar}, if the API is available.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setupActionBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // Show the Up button in the action bar.
-            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
@@ -136,7 +124,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -160,6 +152,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         } else {
             // Setup new user
             global.authenticatedUser = new User(email);
+
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
@@ -171,15 +164,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
                     try {
                         JSONObject json = new JSONObject(response);
-                        String token = json.getString("token");
 
-                        global.authenticatedUser.setToken(token);
+                        if (json.has("token")) {
+                            String token = json.getString("token");
+                            global.authenticatedUser.setToken(token);
+
+                            showProgress(false);
+                            finish();
+                        } else {
+                            showProgress(false);
+                            mEmailView.setError(getString(R.string.error_invalid_user));
+                            mPasswordView.setError(getString(R.string.error_invalid_user));
+                        }
+
                     } catch(Exception e) {
-
+                        showProgress(false);
+                        finish();
                     }
-
-                    showProgress(false);
-                    finish();
                 }
 
             }, global.authenticatedUser.getToken());
@@ -193,13 +194,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         //return email.contains("@");
         return true;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
