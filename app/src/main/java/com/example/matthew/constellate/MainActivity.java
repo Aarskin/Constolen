@@ -9,7 +9,6 @@ import android.view.View;
 
 
 public class MainActivity extends ActionBarActivity {
-
     // Global singleton
     Constellate global;
 

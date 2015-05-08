@@ -10,9 +10,11 @@ import java.net.URL;
 class CallAPI extends AsyncTask<String, String, String> {
 
     ResponseListener responseListener;
+    String token;
 
-    public CallAPI(ResponseListener responseListener) {
+    public CallAPI(ResponseListener responseListener, String token) {
         this.responseListener = responseListener;
+        this.token = token;
     }
 
     @Override
@@ -33,6 +35,10 @@ class CallAPI extends AsyncTask<String, String, String> {
             // We're gonna input and output (mostly)
             connection.setDoOutput(true);
             connection.setDoInput(true);
+
+            // If we've got a token, authenticate this request
+            if (!token.equals(""))
+                connection.setRequestProperty("Authorization", "Bearer " + token);
 
             // We're gonna send and expect JSON (mostly)
             connection.setRequestProperty("Content-Type", "application/json");

@@ -177,7 +177,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     finish();
                 }
 
-            });
+            }, global.authenticatedUser.getToken());
 
             String auth = "{\"username\":\"" + email + "\",\"password\":\"" + password + "\"}";
             mAuthTask.execute(
