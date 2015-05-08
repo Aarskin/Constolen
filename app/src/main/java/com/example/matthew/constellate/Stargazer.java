@@ -23,10 +23,7 @@ import com.badlogic.gdx.utils.Array;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.HashMap;
-=======
->>>>>>> 51a9de8599d6dd4780fc19b1b742feb541fd1d7d
 import java.util.Scanner;
 
 /**
@@ -190,6 +187,8 @@ public class Stargazer implements ApplicationListener
     {
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        System.out.println("frame");
 
         // Render lines
         cam.update();
