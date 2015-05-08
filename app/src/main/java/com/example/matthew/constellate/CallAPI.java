@@ -33,8 +33,9 @@ class CallAPI extends AsyncTask<String, String, String> {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             // We're gonna input and output (mostly)
-            connection.setDoOutput(true);
             connection.setDoInput(true);
+            if (requestMethod.equals("PUT") && requestMethod.equals("POST"))
+                connection.setDoOutput(true);
 
             // If we've got a token, authenticate this request
             if (!token.equals(""))
@@ -48,9 +49,11 @@ class CallAPI extends AsyncTask<String, String, String> {
             connection.setRequestMethod(requestMethod);
 
             // Write any JSON
-            OutputStream os = connection.getOutputStream();
-            os.write(requestJSON.getBytes());
-            os.flush();
+            if (requestMethod.equals("PUT") && requestMethod.equals("POST")) {
+                OutputStream os = connection.getOutputStream();
+                os.write(requestJSON.getBytes());
+                os.flush();
+            }
 
             // Get response
             BufferedReader br = new BufferedReader(
