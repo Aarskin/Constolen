@@ -1,7 +1,7 @@
 package com.example.matthew.constellate;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,7 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
-public class Constellate extends ActionBarActivity {
+public class Constellate extends Activity {
     // Global singleton
     ConstellateGlobals global;
 
