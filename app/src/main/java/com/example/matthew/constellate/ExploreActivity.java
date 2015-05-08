@@ -46,7 +46,6 @@ public class ExploreActivity extends AndroidApplication {
             @Override
             public void responseReceived(String response)
             {
-
                 try {
                     JSONObject OG_JSON = new JSONObject(response);
                     JSONArray constellationA = OG_JSON.getJSONArray("constellations");

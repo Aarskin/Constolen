@@ -87,6 +87,7 @@ public class Stargazer implements ApplicationListener
         selected = new ArrayList<Vector3>();
         hashStars = new HashMap<Integer, Star>();
         star = new Star();
+        pairs = new ArrayList<StarPair>();
 
         // Want to rotate when panning
         rotate = new GestureDetector((new PanningController(this)));
@@ -102,8 +103,9 @@ public class Stargazer implements ApplicationListener
             hashStars.put(star.ID_NUM, star);
         }
 
-        loadStars();
+        //loadStars();
         computeConstellations();
+        //System.out.println("Computed Constellations");
     }
 
     public void loadStars()
@@ -115,6 +117,8 @@ public class Stargazer implements ApplicationListener
         for(int i = 0; i < NUM_STARS; i++)
         {
             star = stars.get(i);
+
+            System.out.println("Load star: " + star.ID_NUM);
 
             mag = (float)star.getMag();
             nick_vector = star.getHat();
@@ -134,45 +138,17 @@ public class Stargazer implements ApplicationListener
         }
     }
 
-    @Override
-    public void render()
-    {
-        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-
-        // Render lines
-        cam.update();
-        draw.setProjectionMatrix(cam.combined);
-        draw.begin(ShapeRenderer.ShapeType.Line);
-        draw.setColor(Color.GREEN);
-        System.out.println("LINE START");
-        for(StarPair pair : pairs) draw.line(pair.v1, pair.v2);
-        System.out.println("LINE END");
-        draw.end();
-
-        // Render coordinates
-        batch.begin();
-        font.draw(batch, "Hello World!", 200, 200);
-        batch.end();
-
-        // Render stars
-        modelBatch.begin(cam);
-        modelBatch.render(instances);
-        modelBatch.end();
-    }
-
-    private void computeConstellations()
+    public void computeConstellations()
     {
         Star s1, s2;
         Vector n1, n2;
         float x1, x2;
         float y1, y2;
         float z1, z2;
-        Vector3 v1, v2;
 
         int i = 0;
 
-        //System.out.println("Constellation Enter");
+        System.out.println("Constellations: " + constellations);
 
         // Draw lines between all the pairs!
         for(Constellation con : constellations)
@@ -204,6 +180,43 @@ public class Stargazer implements ApplicationListener
             if(i > 2) return;
         }
         //System.out.println("Constellation Exit");
+    }
+
+    @Override
+    public void render()
+    {
+        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        // Render lines
+        cam.update();
+        draw.setProjectionMatrix(cam.combined);
+        draw.begin(ShapeRenderer.ShapeType.Line);
+        draw.setColor(Color.GREEN);
+        //draw.line(pairs.get(3).v1, pairs.get(3).v2);
+        //System.out.println("LINE Start");
+        //.out.println("LINE START");
+        /*
+        Vector3 v1, v2;
+
+        for(StarPair pair : pairs)
+        {
+            v1 = pair.v1;
+            v2 = pair.v2;
+            draw.line(v1, v2);
+        }
+        */
+        draw.end();
+
+        // Render coordinates
+        batch.begin();
+        //font.draw(batch, "Hello World!", 200, 200);
+        batch.end();
+
+        // Render stars
+        modelBatch.begin(cam);
+        modelBatch.render(instances);
+        modelBatch.end();
     }
 
     @Override
