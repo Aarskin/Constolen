@@ -51,8 +51,11 @@ public class Stargazer implements ApplicationListener
     private int NUM_STARS = 520;
     private float SCALAR = 255f;
     private float VIEW_MIN = 1f;
+    private Constellate global;
 
-    public Stargazer(Context c) {
+    public Stargazer(Constellate act, Context c)
+    {
+        global = act;
         context = c;
     }
 
@@ -90,18 +93,6 @@ public class Stargazer implements ApplicationListener
             stars.add(gread.fromJson(reader.nextLine(), Star.class));
 
         loadStars();
-        loadConstellations();
-    }
-
-    private void loadConstellations()
-    {
-        CallAPI const = new CallAPI(new CallAPI.ResponseListener()
-        {
-            @Override
-            public void responseReceived(String response) {
-
-            }
-        }
     }
 
     public void loadStars()
