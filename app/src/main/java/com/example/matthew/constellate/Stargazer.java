@@ -188,6 +188,7 @@ public class Stargazer implements ApplicationListener
                 v1 = new Vector3(x1, y1, z1);
                 v2 = new Vector3(x2, y2, z2);
 
+                System.out.println("V1: " + v1 + " V2: " + v2);
                 draw.line(v1, v2);
             }
         }
