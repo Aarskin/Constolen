@@ -2,7 +2,6 @@ package com.example.matthew.constellate;
 
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -14,6 +13,7 @@ public class PanningController implements GestureListener
     public Stargazer gazer;
     public PerspectiveCamera cam;
     public float fingX, fingY;
+    public Star closest;
 
     public PanningController(Stargazer g)
     {
@@ -27,10 +27,37 @@ public class PanningController implements GestureListener
     @Override
     public boolean touchDown(float x, float y, int pointer, int button)
     {
-        fingX = x;
-        fingY = y;
+        Vector3 inWorld, closest;
+
+        // Unproject onto the far plane (z = 1f)
+        inWorld = cam.unproject(new Vector3(x, y, 1f));
+        closest = findStar(inWorld);
+
+        gazer.selected.add(closest);
 
         return true;
+    }
+
+    private Vector3 findStar(Vector3 inWorld)
+    {
+        Vector v;
+        Vector3 starVec;
+        Vector3 retVec = new Vector3();
+        float minDistance = 1000f;
+
+        for(Star star : gazer.stars)
+        {
+            v = star.getHat();
+
+            starVec = new Vector3((float)v.getX(), (float)v.getY(), (float)v.getZ()).scl(255f);
+
+            if(inWorld.dst(starVec) < minDistance)
+            {
+                retVec = starVec;
+            }
+        }
+
+        return retVec;
     }
 
     @Override
@@ -42,10 +69,6 @@ public class PanningController implements GestureListener
     @Override
     public boolean longPress(float x, float y)
     {
-        fingX = x;
-        fingY = y;
-
-        Vector3 test = cam.unproject(new Vector3(x, y, 0));
 
         return true;
     }
