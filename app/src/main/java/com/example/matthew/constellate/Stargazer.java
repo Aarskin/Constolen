@@ -90,6 +90,18 @@ public class Stargazer implements ApplicationListener
             stars.add(gread.fromJson(reader.nextLine(), Star.class));
 
         loadStars();
+        loadConstellations();
+    }
+
+    private void loadConstellations()
+    {
+        CallAPI const = new CallAPI(new CallAPI.ResponseListener()
+        {
+            @Override
+            public void responseReceived(String response) {
+
+            }
+        }
     }
 
     public void loadStars()
