@@ -34,7 +34,7 @@ class CallAPI extends AsyncTask<String, String, String> {
 
             // We're gonna input and output (mostly)
             connection.setDoInput(true);
-            if (requestMethod.equals("PUT") && requestMethod.equals("POST"))
+            if (requestMethod.equals("PUT") || requestMethod.equals("POST"))
                 connection.setDoOutput(true);
 
             // If we've got a token, authenticate this request
@@ -49,7 +49,7 @@ class CallAPI extends AsyncTask<String, String, String> {
             connection.setRequestMethod(requestMethod);
 
             // Write any JSON
-            if (requestMethod.equals("PUT") && requestMethod.equals("POST")) {
+            if (requestMethod.equals("PUT") || requestMethod.equals("POST")) {
                 OutputStream os = connection.getOutputStream();
                 os.write(requestJSON.getBytes());
                 os.flush();
