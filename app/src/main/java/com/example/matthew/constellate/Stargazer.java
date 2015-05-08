@@ -1,6 +1,7 @@
 package com.example.matthew.constellate;
 
 import android.content.Context;
+import android.provider.Settings;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ApplicationListener;
@@ -153,11 +154,15 @@ public class Stargazer implements ApplicationListener
         // Draw lines between all the pairs!
         for(Constellation con : constellations)
         {
+            System.out.println("this");
             i++;
+
+            System.out.println("that");
 
             //System.out.println("Pair Enter");
             for(StarPair pair : con.pairs)
             {
+                System.out.println("poop");
                 s1 = hashStars.get(pair.star1);
                 s2 = hashStars.get(pair.star2);
                 n1 = s1.getHat();
@@ -175,6 +180,7 @@ public class Stargazer implements ApplicationListener
                 pair.v2 = new Vector3(x2, y2, z2);
 
                 pairs.add(pair);
+                System.out.println("pair");
             }
             //System.out.println("Pair Exit");
             if(i > 2) return;
@@ -188,7 +194,7 @@ public class Stargazer implements ApplicationListener
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        System.out.println("frame");
+        //System.out.println("frame");
 
         // Render lines
         cam.update();
