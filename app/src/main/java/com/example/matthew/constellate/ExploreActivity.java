@@ -61,6 +61,7 @@ public class ExploreActivity extends AndroidApplication {
                     int id;
                     String name;
                     int star1, star2;
+                    Constellation constellation;
 
                     // Loop over constellations
                     for(int i = 0; i < constellationA.length(); i++)
@@ -76,7 +77,8 @@ public class ExploreActivity extends AndroidApplication {
                         // Read info
                         id = info.getInt("id");
                         name = info.getString("name");
-                        constellations.add(new Constellation(name, id));
+                        constellation = new Constellation(name, id);
+                        constellations.add(constellation);
                         System.out.println("NAME: " + name + " ID: " + id);
 
                         pairs = new ArrayList<StarPair>();
@@ -92,8 +94,9 @@ public class ExploreActivity extends AndroidApplication {
                             star2 = idA.getInt(1);
 
                             pairs.add(new StarPair(star1, star2));
-                            System.out.println("STAR1: " + star1 + " STAR2: " + star2);
                         }
+
+                        constellation.addPairs(pairs);
                     }
                 }
                 catch(Exception e){ System.out.println(e) ;}
