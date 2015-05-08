@@ -104,9 +104,8 @@ public class Stargazer implements ApplicationListener
             hashStars.put(star.ID_NUM, star);
         }
 
-        //loadStars();
+        loadStars();
         computeConstellations();
-        //System.out.println("Computed Constellations");
     }
 
     public void loadStars()
@@ -118,8 +117,6 @@ public class Stargazer implements ApplicationListener
         for(int i = 0; i < NUM_STARS; i++)
         {
             star = stars.get(i);
-
-            System.out.println("Load star: " + star.ID_NUM);
 
             mag = (float)star.getMag();
             nick_vector = star.getHat();
@@ -147,45 +144,33 @@ public class Stargazer implements ApplicationListener
         float y1, y2;
         float z1, z2;
 
-        int i = 0;
-
-        System.out.println("Constellations: " + constellations);
-
         // Draw lines between all the pairs!
         for(Constellation con : constellations)
         {
-            System.out.println("this");
-            i++;
-
-            System.out.println("that");
-
-            //System.out.println("Pair Enter");
             for(StarPair pair : con.pairs)
             {
-                System.out.println("poop");
                 s1 = hashStars.get(pair.star1);
                 s2 = hashStars.get(pair.star2);
-                n1 = s1.getHat();
-                n2 = s2.getHat();
 
-                x1 = SCALAR*(float)n1.getX();
-                y1 = SCALAR*(float)n1.getY();
-                z1 = SCALAR*(float)n1.getZ();
+                if (s1 != null && s2 != null) {
+                    n1 = s1.getHat();
+                    n2 = s2.getHat();
 
-                x2 = SCALAR*(float)n2.getX();
-                y2 = SCALAR*(float)n2.getY();
-                z2 = SCALAR*(float)n2.getZ();
+                    x1 = SCALAR * (float) n1.getX();
+                    y1 = SCALAR * (float) n1.getY();
+                    z1 = SCALAR * (float) n1.getZ();
 
-                pair.v1 = new Vector3(x1, y1, z1);
-                pair.v2 = new Vector3(x2, y2, z2);
+                    x2 = SCALAR * (float) n2.getX();
+                    y2 = SCALAR * (float) n2.getY();
+                    z2 = SCALAR * (float) n2.getZ();
 
-                pairs.add(pair);
-                System.out.println("pair");
+                    pair.v1 = new Vector3(x1, y1, z1);
+                    pair.v2 = new Vector3(x2, y2, z2);
+
+                    pairs.add(pair);
+                }
             }
-            //System.out.println("Pair Exit");
-            if(i > 2) return;
         }
-        //System.out.println("Constellation Exit");
     }
 
     @Override
@@ -194,26 +179,19 @@ public class Stargazer implements ApplicationListener
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        //System.out.println("frame");
-
         // Render lines
         cam.update();
         draw.setProjectionMatrix(cam.combined);
         draw.begin(ShapeRenderer.ShapeType.Line);
         draw.setColor(Color.GREEN);
-        //draw.line(pairs.get(3).v1, pairs.get(3).v2);
-        //System.out.println("LINE Start");
-        //.out.println("LINE START");
-        /*
-        Vector3 v1, v2;
 
+        Vector3 v1, v2;
         for(StarPair pair : pairs)
         {
             v1 = pair.v1;
             v2 = pair.v2;
             draw.line(v1, v2);
         }
-        */
         draw.end();
 
         // Render coordinates
