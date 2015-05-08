@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 public class StarPair
 {
     public int star1, star2;
+    public Vector3 v1, v2;
 
     public StarPair(int s1, int s2)
     {

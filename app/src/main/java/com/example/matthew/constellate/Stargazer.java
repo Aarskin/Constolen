@@ -24,7 +24,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -51,6 +50,7 @@ public class Stargazer implements ApplicationListener
     public SpriteBatch batch;
     public ArrayList<Constellation> constellations;
     public Star star;
+    public ArrayList<StarPair> pairs;
 
     private int NUM_STARS = 520;
     private float SCALAR = 255f;
@@ -103,6 +103,7 @@ public class Stargazer implements ApplicationListener
         }
 
         loadStars();
+        computeConstellations();
     }
 
     public void loadStars()
@@ -144,7 +145,9 @@ public class Stargazer implements ApplicationListener
         draw.setProjectionMatrix(cam.combined);
         draw.begin(ShapeRenderer.ShapeType.Line);
         draw.setColor(Color.GREEN);
-        drawConstellations();
+        System.out.println("LINE START");
+        for(StarPair pair : pairs) draw.line(pair.v1, pair.v2);
+        System.out.println("LINE END");
         draw.end();
 
         // Render coordinates
@@ -158,7 +161,7 @@ public class Stargazer implements ApplicationListener
         modelBatch.end();
     }
 
-    private void drawConstellations()
+    private void computeConstellations()
     {
         Star s1, s2;
         Vector n1, n2;
@@ -167,9 +170,16 @@ public class Stargazer implements ApplicationListener
         float z1, z2;
         Vector3 v1, v2;
 
+        int i = 0;
+
+        //System.out.println("Constellation Enter");
+
         // Draw lines between all the pairs!
         for(Constellation con : constellations)
         {
+            i++;
+
+            //System.out.println("Pair Enter");
             for(StarPair pair : con.pairs)
             {
                 s1 = hashStars.get(pair.star1);
@@ -185,13 +195,15 @@ public class Stargazer implements ApplicationListener
                 y2 = SCALAR*(float)n2.getY();
                 z2 = SCALAR*(float)n2.getZ();
 
-                v1 = new Vector3(x1, y1, z1);
-                v2 = new Vector3(x2, y2, z2);
+                pair.v1 = new Vector3(x1, y1, z1);
+                pair.v2 = new Vector3(x2, y2, z2);
 
-                System.out.println("V1: " + v1 + " V2: " + v2);
-                draw.line(v1, v2);
+                pairs.add(pair);
             }
+            //System.out.println("Pair Exit");
+            if(i > 2) return;
         }
+        //System.out.println("Constellation Exit");
     }
 
     @Override
