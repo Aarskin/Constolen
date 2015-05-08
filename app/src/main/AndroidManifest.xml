@@ -9,8 +9,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="com.example.matthew.constellate.Constellate"
+        android:name=".ConstellateGlobals"
         android:allowBackup="true"
+        android:screenOrientation="portrait"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.NoActionBar" >
@@ -22,8 +23,8 @@
             android:smallScreens="true" />
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:name=".Constellate"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -55,11 +56,11 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".Constellate"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.matthew.constellate.MainActivity" />
+                android:value=".Constellate" />
         </activity>
     </application>
 

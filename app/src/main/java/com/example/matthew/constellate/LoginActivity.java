@@ -6,7 +6,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
-import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -57,7 +56,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private View mLoginFormView;
 
     // Global singleton
-    Constellate global;
+    ConstellateGlobals global;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +69,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         setupActionBar();
 
         // Assign global singleton
-        global = ((Constellate) this.getApplication());
+        global = ((ConstellateGlobals) this.getApplication());
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);

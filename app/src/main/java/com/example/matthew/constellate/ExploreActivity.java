@@ -1,15 +1,9 @@
 package com.example.matthew.constellate;
 
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import com.badlogic.gdx.backends.android.AndroidApplication;
-import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.badlogic.gdx.utils.Json;
-import com.example.matthew.constellate.Stargazer;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -21,7 +15,7 @@ import java.util.ArrayList;
 public class ExploreActivity extends AndroidApplication {
 
     ArrayList<Constellation> constellations;
-    private Constellate global;
+    private ConstellateGlobals global;
     private Gson gson;
 
     @Override
@@ -30,7 +24,7 @@ public class ExploreActivity extends AndroidApplication {
         boolean useOpenGLES2 = false;
 
         Context context = getApplicationContext();
-        global = ((Constellate) this.getApplication());
+        global = ((ConstellateGlobals) this.getApplication());
 
         super.onCreate(savedInstanceState);
         loadConstellations();

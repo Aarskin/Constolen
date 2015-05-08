@@ -1,7 +1,6 @@
 package com.example.matthew.constellate;
 
 import android.content.Context;
-import android.provider.Settings;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.ApplicationListener;
@@ -56,9 +55,9 @@ public class Stargazer implements ApplicationListener
     private int NUM_STARS = 520;
     private float SCALAR = 255f;
     private float VIEW_MIN = 1f;
-    private Constellate global;
+    private ConstellateGlobals global;
 
-    public Stargazer(Constellate act, Context c, ArrayList<Constellation> cs)
+    public Stargazer(ConstellateGlobals act, Context c, ArrayList<Constellation> cs)
     {
         global = act;
         context = c;

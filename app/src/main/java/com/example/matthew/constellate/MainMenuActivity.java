@@ -11,8 +11,14 @@ import android.view.WindowManager;
 
 public class MainMenuActivity extends ActionBarActivity {
 
+    // Global singleton
+    ConstellateGlobals global;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Assign global singleton
+        global = ((ConstellateGlobals) this.getApplication());
+
         // remove title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -53,6 +59,15 @@ public class MainMenuActivity extends ActionBarActivity {
     public void openCollection(View view)
     {
         Intent intent = new Intent(this, CollectionActivity.class);
+        startActivity(intent);
+    }
+
+    public void logout() {
+        // Clear authenticated user
+        global.authenticatedUser = null;
+
+        // Open up main activity
+        Intent intent = new Intent(this, Constellate.class);
         startActivity(intent);
     }
 }
