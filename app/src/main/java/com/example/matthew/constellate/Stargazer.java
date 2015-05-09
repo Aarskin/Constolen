@@ -103,11 +103,11 @@ public class Stargazer implements ApplicationListener
             hashStars.put(star.ID_NUM, star);
         }
 
-        loadStars();
+        createStarModels();
         computeConstellations();
     }
 
-    public void loadStars()
+    public void createStarModels()
     {
         Star star;
         Vector nick_vector;
@@ -131,7 +131,7 @@ public class Stargazer implements ApplicationListener
 
             // Create the model scaled by the specified coordinates
             inst = new ModelInstance(model, x, y, z);
-            instances.add(inst);
+                instances.add(inst);
         }
     }
 
