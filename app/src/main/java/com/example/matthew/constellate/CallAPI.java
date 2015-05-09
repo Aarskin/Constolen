@@ -55,10 +55,18 @@ class CallAPI extends AsyncTask<String, String, String> {
                 os.flush();
             }
 
+            // Get response code
+            int status = connection.getResponseCode();
+
             // Get response
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream())
-            );
+            InputStreamReader responseStream;
+            if (status >= 400) {
+                responseStream = new InputStreamReader(connection.getErrorStream());
+            } else {
+                responseStream = new InputStreamReader(connection.getInputStream());
+            }
+
+            BufferedReader br = new BufferedReader(responseStream);
 
             String line;
             while ((line = br.readLine()) != null) {
