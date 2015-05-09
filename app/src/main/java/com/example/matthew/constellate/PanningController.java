@@ -50,9 +50,8 @@ public class PanningController implements GestureListener
     @Override
     public boolean touchDown(float x, float y, int pointer, int button)
     {
-        // Dummy line
-        StarPair dummy = new StarPair(11734, 116361, new Vector3(2.58267f, 2.0139048f, 254.97896f), new Vector3(54.395f, -4.914f, 249.08224f));
-        gazer.pairs.add(dummy);
+        if(!gazer.DRAW)
+            return true; // Do nothing
 
         Ray ray = cam.getPickRay(x, y);
         int index = findStar(ray);
@@ -119,7 +118,7 @@ public class PanningController implements GestureListener
     @Override
     public boolean longPress(float x, float y)
     {
-
+        gazer.DRAW = !gazer.DRAW;
         return true;
     }
 

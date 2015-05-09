@@ -52,6 +52,8 @@ public class Stargazer implements ApplicationListener
     public Star star;
     public ArrayList<StarPair> pairs;
 
+    public boolean DRAW = false;
+
     private int NUM_STARS = 520;
     private float SCALAR = 255f;
     private float VIEW_MIN = 1f;
@@ -187,10 +189,12 @@ public class Stargazer implements ApplicationListener
             draw.line(pair.v1, pair.v2);
         draw.end();
 
-        // Render coordinates
-        //batch.begin();
-        //font.draw(batch, "Hello World!", 200, 200);
-        //batch.end();
+        // Indicate Draw Mode
+        if(DRAW) {
+            batch.begin();
+            font.draw(batch, "TAP TO DRAW CONSTELLATIONS", cam.viewportWidth/2f, cam.viewportHeight);
+            batch.end();
+        }
 
         // Render stars
         modelBatch.begin(cam);
