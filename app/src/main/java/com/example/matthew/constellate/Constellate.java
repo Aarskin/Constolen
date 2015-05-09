@@ -69,6 +69,12 @@ public class Constellate extends Activity {
         startActivity(intent);
     }
 
+    public void openRegisterActivity(View view)
+    {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
     public void openMainMenu()
     {
         Intent intent = new Intent(this, MainMenuActivity.class);

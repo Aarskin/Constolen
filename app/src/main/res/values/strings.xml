@@ -13,5 +13,9 @@
     <string name="logout_button">Logout</string>
     <string name="my_collections">My Constellations</string>
     <string name="constellations">Constellations</string>
-
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="register_username">Desired Username</string>
+    <string name="register_email">Email Address</string>
+    <string name="password_repeat">Repeat Password</string>
+    <string name="register">Register</string>
 </resources>
