@@ -66,8 +66,11 @@ public class PanningController implements GestureListener
 
                 // full now, add to pairs
                 gazer.pairs.add(new StarPair(s1, s2, v1, v2));
-
                 Log.d("pairs", "PAIRADDED" + v1 + " | " + v2);
+
+                // Rotate
+                s1 = s2;
+                v1 = v2;
             } else // star1 == -1, so must star2 (enforce)
             {
                 // First star hit

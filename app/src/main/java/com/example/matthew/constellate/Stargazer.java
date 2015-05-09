@@ -104,7 +104,7 @@ public class Stargazer implements ApplicationListener
         }
 
         createStarModels();
-        //computeConstellations();
+        computeConstellations();
     }
 
     public void createStarModels()
