@@ -19,12 +19,17 @@ import com.badlogic.gdx.math.collision.Ray;
 public class PanningController implements GestureListener
 {
     public Stargazer gazer;
+    //public StarPair newPair;
     public PerspectiveCamera cam;
     public float fingX, fingY;
     public Star closest;
     ModelInstance starModel;
     Ray ray;
     Intersector intersector;
+
+
+    int s1, s2;
+    Vector3 v1, v2;
 
     public PanningController(Stargazer g)
     {
@@ -34,18 +39,56 @@ public class PanningController implements GestureListener
         gazer = g;
         cam = gazer.cam;
         intersector = new Intersector();
+
+        // Intermediates for creation
+        s1 = -1;
+        s2 = -1;
+        v1 = new Vector3();
+        v2 = new Vector3();
     }
 
     @Override
     public boolean touchDown(float x, float y, int pointer, int button)
     {
-        Vector3 cur;
+        // Dummy line
+        StarPair dummy = new StarPair(11734, 116361, new Vector3(2.58267f, 2.0139048f, 254.97896f), new Vector3(54.395f, -4.914f, 249.08224f));
+        gazer.pairs.add(dummy);
+
         Ray ray = cam.getPickRay(x, y);
+        int index = findStar(ray);
+
+        if(index != -1) // Hit!
+        {
+            if (s1 != -1) {
+                // Flesh out the pair
+                s2 = gazer.stars.get(index).ID_NUM;
+                v2 = gazer.locs[index];
+
+                // full now, add to pairs
+                gazer.pairs.add(new StarPair(s1, s2, v1, v2));
+
+                Log.d("pairs", "PAIRADDED" + v1 + " | " + v2);
+            } else // star1 == -1, so must star2 (enforce)
+            {
+                // First star hit
+                s1 = gazer.stars.get(index).ID_NUM;
+                v1 = gazer.locs[index];
+            }
+        }
+
+        return true;
+    }
+
+    // Returns the index of the identified star
+    private int findStar(Ray ray)
+    {
+        int i;
+        Vector3 cur;
         Star star;
         float mag;
-        Material yellow = new Material(ColorAttribute.createDiffuse(Color.WHITE));
+        Material green = new Material(ColorAttribute.createDiffuse(Color.GREEN));
 
-        for(int i = 0; i < gazer.locs.length; i++)
+        for(i = 0; i < gazer.locs.length-1; i++)
         {
             cur = gazer.locs[i];
             star = gazer.stars.get(i);
@@ -53,49 +96,15 @@ public class PanningController implements GestureListener
 
             Log.d("touch", "check" + i);
 
-            if(Intersector.intersectRaySphere(ray, cur, mag, null)) {
+            // Account for sloppy presses by making the stars bigger
+            if(Intersector.intersectRaySphere(ray, cur, 3*mag, null)) {
                 Log.d("intersection", "Location: " + cur);
-                gazer.instances.get(i).materials.clear();
-                gazer.instances.get(i).materials.add(yellow);
-                break; // Cur is the loc of the star we touched
+                gazer.instances.get(i).materials.add(green);
+                return i; // Cur is the loc of the star we touched
             }
         }
 
-        Log.d("touch", "LOOP FINISH");
-
-        /*
-        // Unproject onto the far plane (z = 1f)
-        inWorld = cam.unproject(new Vector3(x, y, 1f));
-        closest = findStar(inWorld);
-
-        gazer.selected.add(closest);
-        */
-
-        return true;
-    }
-
-    private Vector3 findStar(Vector3 inWorld)
-    {
-        /*
-        Vector v;
-        Vector3 starVec;
-        Vector3 retVec = new Vector3();
-        float minDistance = 1000f;
-
-        for(Star star : gazer.stars)
-        {
-            v = star.getHat();
-
-            starVec = new Vector3((float)v.getX(), (float)v.getY(), (float)v.getZ()).scl(255f);
-
-            if(inWorld.dst(starVec) < minDistance)
-            {
-                retVec = starVec;
-            }
-        }
-        */
-
-        return null;
+        return -1;
     }
 
     @Override

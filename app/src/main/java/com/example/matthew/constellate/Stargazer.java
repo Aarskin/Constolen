@@ -104,7 +104,7 @@ public class Stargazer implements ApplicationListener
         }
 
         createStarModels();
-        computeConstellations();
+        //computeConstellations();
     }
 
     public void createStarModels()
@@ -183,20 +183,14 @@ public class Stargazer implements ApplicationListener
         draw.setProjectionMatrix(cam.combined);
         draw.begin(ShapeRenderer.ShapeType.Line);
         draw.setColor(Color.GREEN);
-
-        Vector3 v1, v2;
         for(StarPair pair : pairs)
-        {
-            v1 = pair.v1;
-            v2 = pair.v2;
-            draw.line(v1, v2);
-        }
+            draw.line(pair.v1, pair.v2);
         draw.end();
 
         // Render coordinates
-        batch.begin();
+        //batch.begin();
         //font.draw(batch, "Hello World!", 200, 200);
-        batch.end();
+        //batch.end();
 
         // Render stars
         modelBatch.begin(cam);
