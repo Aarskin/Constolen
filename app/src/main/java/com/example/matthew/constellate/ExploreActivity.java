@@ -1,6 +1,7 @@
 package com.example.matthew.constellate;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -25,6 +26,10 @@ public class ExploreActivity extends AndroidApplication {
     {
         boolean useOpenGLES2 = false;
         Vector3 startDir = new Vector3(0f, 0f, 5f);
+        Intent intent = getIntent();
+        int cons_ID = intent.getIntExtra("ID", -1);
+
+        Log.d("ID", "ID: " + cons_ID);
 
         Context context = getApplicationContext();
         global = ((ConstellateGlobals) this.getApplication());
