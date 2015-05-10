@@ -4,18 +4,25 @@ import java.util.ArrayList;
 
 /**
  * Created by Matthew on 5/7/2015.
+ *
+ * ID of -1 indicates it has not yet been POSTed
+ *
  */
 public class Constellation
 {
     public String name;
-    public int id;
+    public int ID;
     public ArrayList<StarPair> pairs;
+
+    public Constellation()
+    {
+
+    }
 
     public Constellation(String n, int i)
     {
         name = n;
-        id = i;
-
+        int ID = i;
         pairs = new ArrayList<StarPair>();
     }
 
@@ -24,4 +31,8 @@ public class Constellation
         pairs.addAll(list);
     }
 
+    public void addPair(StarPair pair)
+    {
+        pairs.add(pair);
+    }
 }

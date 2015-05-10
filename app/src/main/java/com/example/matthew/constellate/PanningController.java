@@ -26,6 +26,7 @@ public class PanningController implements GestureListener
     ModelInstance starModel;
     Ray ray;
     Intersector intersector;
+    Constellation constellation;
 
 
     int s1, s2;
@@ -50,8 +51,12 @@ public class PanningController implements GestureListener
     @Override
     public boolean touchDown(float x, float y, int pointer, int button)
     {
-        if(!gazer.DRAW)
-            return true; // Do nothing
+        if(!gazer.DRAW) {
+            s1 = -1;
+            s2 = -1;
+            constellation = null;
+            return true; // Done with this constellation/do nothing
+        }
 
         Ray ray = cam.getPickRay(x, y);
         int index = findStar(ray);
@@ -59,12 +64,19 @@ public class PanningController implements GestureListener
         if(index != -1) // Hit!
         {
             if (s1 != -1) {
+
+                if(constellation == null) {
+                    constellation = new Constellation("NAME_HERE", -1);
+                }
+
                 // Flesh out the pair
                 s2 = gazer.stars.get(index).ID_NUM;
                 v2 = gazer.locs[index];
 
                 // full now, add to pairs
-                gazer.pairs.add(new StarPair(s1, s2, v1, v2));
+                StarPair newPair = new StarPair(s1, s2, v1, v2);
+                gazer.pairs.add(newPair);
+                constellation.addPair(newPair);
                 Log.d("pairs", "PAIRADDED" + v1 + " | " + v2);
 
                 // Rotate
@@ -118,6 +130,10 @@ public class PanningController implements GestureListener
     @Override
     public boolean longPress(float x, float y)
     {
+        if(gazer.DRAW)
+        {
+
+        }
         gazer.DRAW = !gazer.DRAW;
         return true;
     }
