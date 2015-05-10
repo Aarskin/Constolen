@@ -105,9 +105,13 @@ public class CollectionActivity extends ActionBarActivity
         ll.setOrientation(LinearLayout.VERTICAL);
         sv.addView(ll);
 
-        Button button = new Button(this);
-        button.setText("BUTTON!");
-        ll.addView(button);
+        //Log.d("BUTTONS", "constellations: " + constellations);
+        //for(Constellation c : constellations)
+        //{
+            Button button = new Button(this);
+            button.setText("BUTTON!");
+            ll.addView(button);
+        //}
 
         setContentView(sv);
         Log.d("BUTTONS", "BUTTONS!");

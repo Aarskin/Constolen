@@ -2,6 +2,7 @@ package com.example.matthew.constellate;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.google.gson.Gson;
@@ -98,7 +99,7 @@ public class ExploreActivity extends AndroidApplication {
                         constellation.addPairs(pairs);
                     }
                 }
-                catch(Exception e){ System.out.println(e) ;}
+                catch(Exception e){  Log.d("EXCEPTION", e.toString()) ;}
             }
         }, global.authenticatedUser.getToken());
 
