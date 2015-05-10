@@ -53,6 +53,8 @@ public class CollectionActivity extends ActionBarActivity
         Log.d("", "Creating Buttons");
         for(Constellation c : constellations)
         {
+            final Constellation cons = c;
+
             Button button = new Button(this);
             button.setText(c.name);
             button.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +62,7 @@ public class CollectionActivity extends ActionBarActivity
                 public void onClick(View v) {
                     // Initialize a Stargazer pointed at this constellation
                     Intent intent = new Intent(global.context, ExploreActivity.class);
+                    intent.putExtra("ID", cons.ID);
                     startActivity(intent);
                 }
             });
