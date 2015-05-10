@@ -84,7 +84,7 @@ public class PanningController implements GestureListener
                 StarPair newPair = new StarPair(s1, s2, v1, v2);
                 gazer.pairs.add(newPair);
                 constellation.addPair(newPair);
-                Log.d("pairs", "PAIRADDED" + v1 + " | " + v2);
+                Log.d("pairs", "PAIR_ADDED" + v1 + " | " + v2);
 
                 // Rotate
                 s1 = s2;

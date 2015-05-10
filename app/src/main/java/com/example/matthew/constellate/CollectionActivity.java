@@ -2,18 +2,116 @@ package com.example.matthew.constellate;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
-public class CollectionActivity extends ActionBarActivity {
+public class CollectionActivity extends ActionBarActivity
+{
+    public LinearLayout ll;
+    public ScrollView sv;
+
+    // Cache of constellations (needs to be cleared at logout, which this is not doing)
+    ArrayList<Constellation> constellations = null;
+    ConstellateGlobals global;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_collection);
-    }
 
+        global = (ConstellateGlobals)this.getApplication();
+
+        if(constellations == null)
+        {
+            constellations = new ArrayList<Constellation>();
+
+            CallAPI constellationTask = new CallAPI(new CallAPI.ResponseListener()
+            {
+                @Override
+                public void responseReceived(String response)
+                {
+                    try {
+                        JSONObject OG_JSON = new JSONObject(response);
+                        JSONArray constellationA = OG_JSON.getJSONArray("constellations");
+                        JSONObject constellationJ, info;
+
+                        // Intermediates
+                        JSONArray vectorsA;
+                        JSONArray idA;
+                        String constellation_infoJ;
+                        ArrayList<StarPair> pairs;
+
+                        // Results!
+                        int id;
+                        String name;
+                        int star1, star2;
+                        Constellation constellation;
+
+                        // Loop over constellations
+                        for(int i = 0; i < constellationA.length(); i++)
+                        {
+                            // Grab the first constellation
+                            constellationJ = constellationA.getJSONObject(i);
+
+                            // Break it into the two smaller JSON objects
+                            constellation_infoJ = constellationJ.getString("info");
+                            vectorsA = constellationJ.getJSONArray("vectors");
+                            info = new JSONObject(constellation_infoJ);
+
+                            // Read info
+                            id = info.getInt("id");
+                            name = info.getString("name");
+                            constellation = new Constellation(name, id);
+                            constellations.add(constellation);
+                            Log.d("CONST", "NAME: " + name + " ID: " + id);
+
+                            pairs = new ArrayList<StarPair>();
+
+                            // Loop and read vectors
+                            for(int j = 0; j < vectorsA.length(); j++)
+                            {
+                                // Because Max is an asshole
+                                idA = vectorsA.getJSONArray(j);
+
+                                // Finally start reading out star pairs
+                                star1 = idA.getInt(0);
+                                star2 = idA.getInt(1);
+
+                                pairs.add(new StarPair(star1, star2));
+                            }
+
+                            constellation.addPairs(pairs);
+                        }
+                    }
+                    catch(Exception e){ Log.d("EXCEPTION", e.toString()) ;}
+                }
+            }, global.authenticatedUser.getToken());
+
+            constellationTask.execute(global.API_URL, global.CONSTELLATION_ENDPOINT, "GET", "", "");
+        }
+
+        // Create the containers for this button
+        sv = new ScrollView(this);
+        ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        sv.addView(ll);
+
+        Button button = new Button(this);
+        button.setText("BUTTON!");
+        ll.addView(button);
+
+        setContentView(sv);
+        Log.d("BUTTONS", "BUTTONS!");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
