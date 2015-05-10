@@ -51,13 +51,12 @@ public class Stargazer implements ApplicationListener
     public ArrayList<Constellation> constellations;
     public Star star;
     public ArrayList<StarPair> pairs;
-
+    public ConstellateGlobals global;
     public boolean DRAW = false;
 
     private int NUM_STARS = 520;
     private float SCALAR = 255f;
     private float VIEW_MIN = 1f;
-    private ConstellateGlobals global;
 
     public Stargazer(ConstellateGlobals act, Context c, ArrayList<Constellation> cs)
     {
@@ -92,7 +91,7 @@ public class Stargazer implements ApplicationListener
         pairs = new ArrayList<StarPair>();
 
         // Want to rotate when panning
-        rotate = new GestureDetector((new PanningController(this)));
+        rotate = new GestureDetector((new PanningController(this, global)));
         Gdx.input.setInputProcessor(rotate);
 
         batch = new SpriteBatch();

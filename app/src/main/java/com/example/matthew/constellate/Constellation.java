@@ -35,4 +35,26 @@ public class Constellation
     {
         pairs.add(pair);
     }
+
+    @Override
+    // Convert to JSON
+    public String toString()
+    {
+        StringBuilder json = new StringBuilder();
+
+        json.append("{\"name\":"+name+"\",\"vectors\":[");
+
+        for(int i = 0; i < pairs.size(); i++)
+        {
+            StarPair pair = pairs.get(i);
+            json.append("[" + pair.star1 + "," + pair.star2 + "]");
+
+            if(i != pairs.size()-1)
+                json.append((","));
+        }
+
+        json.append("]}");
+
+        return json.toString();
+    }
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class ExploreActivity extends AndroidApplication {
 
-    ArrayList<Constellation> constellations;
+    private ArrayList<Constellation> constellations;
     private ConstellateGlobals global;
     private Gson gson;
 
@@ -25,6 +25,11 @@ public class ExploreActivity extends AndroidApplication {
 
         Context context = getApplicationContext();
         global = ((ConstellateGlobals) this.getApplication());
+        global.API_URL = getString(R.string.api_url);
+        global.AUTHENTIACATION_ENDPOINT = getString(R.string.auth_endpoint);
+        global.USER_ENDPOINT = getString(R.string.user_endpoint);
+        global.CONSTELLATION_ENDPOINT = getString(R.string.const_endpoint);
+        global.CONSTELLATION_BY_STAR_ENDPOINT = getString(R.string.const_by_star_endpoint);
 
         super.onCreate(savedInstanceState);
         loadConstellations();
@@ -99,10 +104,7 @@ public class ExploreActivity extends AndroidApplication {
 
         gson = new Gson();
 
-        constellationTask.execute(
-                getString(R.string.api_url),
-                getString(R.string.const_endpoint),
-                "GET", "", "");
+        constellationTask.execute(global.API_URL, global.CONSTELLATION_ENDPOINT, "GET", "", "");
     }
 
     @Override

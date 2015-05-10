@@ -23,16 +23,20 @@ public class PanningController implements GestureListener
     public PerspectiveCamera cam;
     public float fingX, fingY;
     public Star closest;
+    public ConstellateGlobals global;
     ModelInstance starModel;
     Ray ray;
     Intersector intersector;
     Constellation constellation;
 
+    private String postJ;
+
+    CallAPI postConstTask;
 
     int s1, s2;
     Vector3 v1, v2;
 
-    public PanningController(Stargazer g)
+    public PanningController(Stargazer g, ConstellateGlobals glob)
     {
         fingX = 0;
         fingY = 0;
@@ -46,6 +50,16 @@ public class PanningController implements GestureListener
         s2 = -1;
         v1 = new Vector3();
         v2 = new Vector3();
+        postJ = new String();
+
+        postConstTask  = new CallAPI(new CallAPI.ResponseListener() {
+            @Override
+            public void responseReceived(String response)
+            {
+                // Do something with it
+                Log.d("POST", "HOLY SHIT WE GOT A RESPONSE: " + response);
+            }
+        }, global.authenticatedUser.getToken());
     }
 
     @Override
@@ -78,6 +92,8 @@ public class PanningController implements GestureListener
                 gazer.pairs.add(newPair);
                 constellation.addPair(newPair);
                 Log.d("pairs", "PAIRADDED" + v1 + " | " + v2);
+                postConstTask.execute(global.API_URL, global.CONSTELLATION_ENDPOINT, "POST", "", constellation.toString());
+                Log.d("pairs", "PAIRPSTED" + v1 + " | " + v2);
 
                 // Rotate
                 s1 = s2;
