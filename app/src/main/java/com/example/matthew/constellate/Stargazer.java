@@ -183,8 +183,11 @@ public class Stargazer implements ApplicationListener
             }
         }
 
-        cam.lookAt(startDir);
-        cam.update();
+        if(!found)
+        {
+            cam.lookAt(startDir);
+            cam.update();
+        }
     }
 
     @Override

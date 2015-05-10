@@ -22,7 +22,7 @@ public class Constellation
     public Constellation(String n, int i)
     {
         name = n;
-        int ID = i;
+        ID = i;
         pairs = new ArrayList<StarPair>();
     }
 

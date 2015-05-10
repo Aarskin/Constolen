@@ -13,6 +13,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 
+import org.json.JSONObject;
+
 /**
  * Created by Matthew on 5/5/2015.
  */
@@ -27,7 +29,7 @@ public class PanningController implements GestureListener
     ModelInstance starModel;
     Ray ray;
     Intersector intersector;
-    Constellation constellation;
+    Constellation constellation = null;
 
     private String postJ;
 
@@ -139,18 +141,29 @@ public class PanningController implements GestureListener
     {
         if(gazer.DRAW) // Post the constellation we finished
         {
-            postConstTask  = new CallAPI(new CallAPI.ResponseListener() {
+            postConstTask  = new CallAPI(new CallAPI.ResponseListener()
+            {
                 @Override
                 public void responseReceived(String response)
                 {
                     // Do something with it
-
+                    try
+                    {
+                        JSONObject responseJ = new JSONObject(response);
+                        int id = responseJ.getInt("constellation_id");
+                        constellation.ID = id;
+                    }
+                    catch(Exception e) { Log.d("EXCEPTION ", e.toString()); }
                 }
             }, global.authenticatedUser.getToken());
 
             String consJ = constellation.toString();
             Log.d("POST", "JSON executed: " + consJ);
             postConstTask.execute(global.API_URL, global.CONSTELLATION_ENDPOINT, "POST", "", consJ);
+        }
+        else
+        {
+            constellation = new Constellation();
         }
         gazer.DRAW = !gazer.DRAW;
         return true;
