@@ -57,12 +57,14 @@ public class Stargazer implements ApplicationListener
     private int NUM_STARS = 520;
     private float SCALAR = 255f;
     private float VIEW_MIN = 1f;
+    private Vector3 startDir;
 
-    public Stargazer(ConstellateGlobals act, Context c, ArrayList<Constellation> cs)
+    public Stargazer(ConstellateGlobals act, Context c, ArrayList<Constellation> cs, Vector3 dir)
     {
         global = act;
         context = c;
         constellations = cs;
+        startDir = dir;
     }
 
     @Override
@@ -71,7 +73,7 @@ public class Stargazer implements ApplicationListener
         // Need a camera
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.position.set(0f, 0f, 0f);
-        cam.lookAt(0f, 0f, 5f);
+        cam.lookAt(startDir);
         cam.near = VIEW_MIN;
         cam.far = SCALAR;
         cam.update();

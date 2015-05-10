@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+
+import com.badlogic.gdx.backends.android.AndroidApplication;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,90 +34,107 @@ public class CollectionActivity extends ActionBarActivity
         global = (ConstellateGlobals)this.getApplication();
 
         if(constellations == null)
-        {
-            constellations = new ArrayList<Constellation>();
+            cacheConstellations();
+        else
+            ConfigureButtons();
+    }
 
-            CallAPI constellationTask = new CallAPI(new CallAPI.ResponseListener()
-            {
-                @Override
-                public void responseReceived(String response)
-                {
-                    try {
-                        JSONObject OG_JSON = new JSONObject(response);
-                        JSONArray constellationA = OG_JSON.getJSONArray("constellations");
-                        JSONObject constellationJ, info;
-
-                        // Intermediates
-                        JSONArray vectorsA;
-                        JSONArray idA;
-                        String constellation_infoJ;
-                        ArrayList<StarPair> pairs;
-
-                        // Results!
-                        int id;
-                        String name;
-                        int star1, star2;
-                        Constellation constellation;
-
-                        // Loop over constellations
-                        for(int i = 0; i < constellationA.length(); i++)
-                        {
-                            // Grab the first constellation
-                            constellationJ = constellationA.getJSONObject(i);
-
-                            // Break it into the two smaller JSON objects
-                            constellation_infoJ = constellationJ.getString("info");
-                            vectorsA = constellationJ.getJSONArray("vectors");
-                            info = new JSONObject(constellation_infoJ);
-
-                            // Read info
-                            id = info.getInt("id");
-                            name = info.getString("name");
-                            constellation = new Constellation(name, id);
-                            constellations.add(constellation);
-                            Log.d("CONST", "NAME: " + name + " ID: " + id);
-
-                            pairs = new ArrayList<StarPair>();
-
-                            // Loop and read vectors
-                            for(int j = 0; j < vectorsA.length(); j++)
-                            {
-                                // Because Max is an asshole
-                                idA = vectorsA.getJSONArray(j);
-
-                                // Finally start reading out star pairs
-                                star1 = idA.getInt(0);
-                                star2 = idA.getInt(1);
-
-                                pairs.add(new StarPair(star1, star2));
-                            }
-
-                            constellation.addPairs(pairs);
-                        }
-                    }
-                    catch(Exception e){ Log.d("EXCEPTION", e.toString()) ;}
-                }
-            }, global.authenticatedUser.getToken());
-
-            constellationTask.execute(global.API_URL, global.CONSTELLATION_ENDPOINT, "GET", "", "");
-        }
-
+    private void ConfigureButtons()
+    {
         // Create the containers for this button
         sv = new ScrollView(this);
         ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.VERTICAL);
         sv.addView(ll);
 
+        Log.d("", "Creating Buttons");
         //Log.d("BUTTONS", "constellations: " + constellations);
-        //for(Constellation c : constellations)
-        //{
+        for(Constellation c : constellations)
+        {
             Button button = new Button(this);
-            button.setText("BUTTON!");
+            button.setText(c.name);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Initialize a Stargazer pointed at this constellation
+
+                }
+            });
             ll.addView(button);
-        //}
+        }
 
         setContentView(sv);
-        Log.d("BUTTONS", "BUTTONS!");
+    }
+
+    private void cacheConstellations()
+    {
+        constellations = new ArrayList<Constellation>();
+
+        CallAPI constellationTask = new CallAPI(new CallAPI.ResponseListener()
+        {
+            @Override
+            public void responseReceived(String response)
+            {
+                try {
+                    JSONObject OG_JSON = new JSONObject(response);
+                    JSONArray constellationA = OG_JSON.getJSONArray("constellations");
+                    JSONObject constellationJ, info;
+
+                    // Intermediates
+                    JSONArray vectorsA;
+                    JSONArray idA;
+                    String constellation_infoJ;
+                    ArrayList<StarPair> pairs;
+
+                    // Results!
+                    int id;
+                    String name;
+                    int star1, star2;
+                    Constellation constellation;
+
+                    // Loop over constellations
+                    for(int i = 0; i < constellationA.length(); i++)
+                    {
+                        // Grab the first constellation
+                        constellationJ = constellationA.getJSONObject(i);
+
+                        // Break it into the two smaller JSON objects
+                        constellation_infoJ = constellationJ.getString("info");
+                        vectorsA = constellationJ.getJSONArray("vectors");
+                        info = new JSONObject(constellation_infoJ);
+
+                        // Read info
+                        id = info.getInt("id");
+                        name = info.getString("name");
+                        constellation = new Constellation(name, id);
+                        constellations.add(constellation);
+                        Log.d("CONST", "NAME: " + name + " ID: " + id);
+
+                        pairs = new ArrayList<StarPair>();
+
+                        // Loop and read vectors
+                        for(int j = 0; j < vectorsA.length(); j++)
+                        {
+                            // Because Max is an asshole
+                            idA = vectorsA.getJSONArray(j);
+
+                            // Finally start reading out star pairs
+                            star1 = idA.getInt(0);
+                            star2 = idA.getInt(1);
+
+                            pairs.add(new StarPair(star1, star2));
+                        }
+
+                        constellation.addPairs(pairs);
+                    }
+                }
+                catch(Exception e){ Log.d("EXCEPTION", e.toString()) ;}
+
+                ConfigureButtons();
+            }
+        }, global.authenticatedUser.getToken());
+
+        constellationTask.execute(global.API_URL, global.CONSTELLATION_ENDPOINT, "GET", "", "");
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.math.Vector3;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -23,6 +24,7 @@ public class ExploreActivity extends AndroidApplication {
     protected void onCreate(Bundle savedInstanceState)
     {
         boolean useOpenGLES2 = false;
+        Vector3 startDir = new Vector3(0f, 0f, 5f);
 
         Context context = getApplicationContext();
         global = ((ConstellateGlobals) this.getApplication());
@@ -34,7 +36,7 @@ public class ExploreActivity extends AndroidApplication {
 
         super.onCreate(savedInstanceState);
         loadConstellations();
-        initialize(new Stargazer(global, context, constellations));
+        initialize(new Stargazer(global, context, constellations, startDir));
     }
 
     private void loadConstellations()
@@ -102,8 +104,6 @@ public class ExploreActivity extends AndroidApplication {
                 catch(Exception e){  Log.d("EXCEPTION", e.toString()) ;}
             }
         }, global.authenticatedUser.getToken());
-
-        gson = new Gson();
 
         constellationTask.execute(global.API_URL, global.CONSTELLATION_ENDPOINT, "GET", "", "");
     }
