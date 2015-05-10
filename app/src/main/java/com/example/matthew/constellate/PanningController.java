@@ -144,7 +144,7 @@ public class PanningController implements GestureListener
                 public void responseReceived(String response)
                 {
                     // Do something with it
-                    Log.d("POST", "HOLY SHIT WE GOT A RESPONSE: " + response);
+
                 }
             }, global.authenticatedUser.getToken());
 

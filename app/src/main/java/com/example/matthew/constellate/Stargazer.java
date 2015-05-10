@@ -74,7 +74,7 @@ public class Stargazer implements ApplicationListener
         // Need a camera
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.position.set(0f, 0f, 0f);
-        cam.lookAt(startDir);
+        //cam.lookAt(startDir);
         cam.near = VIEW_MIN;
         cam.far = SCALAR;
         cam.update();
@@ -146,6 +146,7 @@ public class Stargazer implements ApplicationListener
         float x1, x2;
         float y1, y2;
         float z1, z2;
+        boolean found = false;
 
         // Draw lines between all the pairs!
         for(Constellation con : constellations)
@@ -171,9 +172,19 @@ public class Stargazer implements ApplicationListener
                     pair.v2 = new Vector3(x2, y2, z2);
 
                     pairs.add(pair);
+
+                    if(!found && cid == con.ID)
+                    {
+                        found = true;
+                        cam.lookAt(pair.v1);
+                        cam.update();
+                    }
                 }
             }
         }
+
+        cam.lookAt(startDir);
+        cam.update();
     }
 
     @Override
