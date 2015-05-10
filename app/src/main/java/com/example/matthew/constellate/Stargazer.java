@@ -57,14 +57,15 @@ public class Stargazer implements ApplicationListener
     private int NUM_STARS = 520;
     private float SCALAR = 255f;
     private float VIEW_MIN = 1f;
-    private Vector3 startDir;
+    private Vector3 startDir = new Vector3(0f, 0f, 5f);
+    private int cid;
 
-    public Stargazer(ConstellateGlobals act, Context c, ArrayList<Constellation> cs, Vector3 dir)
+    public Stargazer(ConstellateGlobals act, Context c, ArrayList<Constellation> cs, int cons_ID)
     {
         global = act;
         context = c;
         constellations = cs;
-        startDir = dir;
+        cid = cons_ID;
     }
 
     @Override

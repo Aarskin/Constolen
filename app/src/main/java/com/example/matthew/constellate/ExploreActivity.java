@@ -41,7 +41,7 @@ public class ExploreActivity extends AndroidApplication {
 
         super.onCreate(savedInstanceState);
         loadConstellations();
-        initialize(new Stargazer(global, context, constellations, startDir));
+        initialize(new Stargazer(global, context, constellations, cons_ID));
     }
 
     private void loadConstellations()
