@@ -42,7 +42,7 @@ public class Constellation
     {
         StringBuilder json = new StringBuilder();
 
-        json.append("{\"name\":"+name+"\",\"vectors\":[");
+        json.append("{\"name\":\""+name+"\",\"vectors\":[");
 
         for(int i = 0; i < pairs.size(); i++)
         {

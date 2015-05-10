@@ -41,6 +41,7 @@ public class PanningController implements GestureListener
         fingX = 0;
         fingY = 0;
 
+        global = glob;
         gazer = g;
         cam = gazer.cam;
         intersector = new Intersector();
@@ -51,15 +52,6 @@ public class PanningController implements GestureListener
         v1 = new Vector3();
         v2 = new Vector3();
         postJ = new String();
-
-        postConstTask  = new CallAPI(new CallAPI.ResponseListener() {
-            @Override
-            public void responseReceived(String response)
-            {
-                // Do something with it
-                Log.d("POST", "HOLY SHIT WE GOT A RESPONSE: " + response);
-            }
-        }, global.authenticatedUser.getToken());
     }
 
     @Override
@@ -68,6 +60,7 @@ public class PanningController implements GestureListener
         if(!gazer.DRAW) {
             s1 = -1;
             s2 = -1;
+
             constellation = null;
             return true; // Done with this constellation/do nothing
         }
@@ -92,8 +85,6 @@ public class PanningController implements GestureListener
                 gazer.pairs.add(newPair);
                 constellation.addPair(newPair);
                 Log.d("pairs", "PAIRADDED" + v1 + " | " + v2);
-                postConstTask.execute(global.API_URL, global.CONSTELLATION_ENDPOINT, "POST", "", constellation.toString());
-                Log.d("pairs", "PAIRPSTED" + v1 + " | " + v2);
 
                 // Rotate
                 s1 = s2;
@@ -146,9 +137,20 @@ public class PanningController implements GestureListener
     @Override
     public boolean longPress(float x, float y)
     {
-        if(gazer.DRAW)
+        if(gazer.DRAW) // Post the constellation we finished
         {
+            postConstTask  = new CallAPI(new CallAPI.ResponseListener() {
+                @Override
+                public void responseReceived(String response)
+                {
+                    // Do something with it
+                    Log.d("POST", "HOLY SHIT WE GOT A RESPONSE: " + response);
+                }
+            }, global.authenticatedUser.getToken());
 
+            String consJ = constellation.toString();
+            Log.d("POST", "JSON executed: " + consJ);
+            postConstTask.execute(global.API_URL, global.CONSTELLATION_ENDPOINT, "POST", "", consJ);
         }
         gazer.DRAW = !gazer.DRAW;
         return true;
