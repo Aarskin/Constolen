@@ -18,6 +18,7 @@ public class MainMenuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         // Assign global singleton
         global = ((ConstellateGlobals) this.getApplication());
+        global.context = this;
 
         // remove title
         requestWindowFeature(Window.FEATURE_NO_TITLE);

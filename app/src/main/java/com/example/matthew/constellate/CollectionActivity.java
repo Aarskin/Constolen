@@ -1,5 +1,6 @@
 package com.example.matthew.constellate;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.math.Interpolation;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,6 +34,7 @@ public class CollectionActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
 
         global = (ConstellateGlobals)this.getApplication();
+        global.context = this;
 
         if(constellations == null)
             cacheConstellations();
@@ -48,7 +51,6 @@ public class CollectionActivity extends ActionBarActivity
         sv.addView(ll);
 
         Log.d("", "Creating Buttons");
-        //Log.d("BUTTONS", "constellations: " + constellations);
         for(Constellation c : constellations)
         {
             Button button = new Button(this);
@@ -57,7 +59,8 @@ public class CollectionActivity extends ActionBarActivity
                 @Override
                 public void onClick(View v) {
                     // Initialize a Stargazer pointed at this constellation
-
+                    Intent intent = new Intent(global.context, ExploreActivity.class);
+                    startActivity(intent);
                 }
             });
             ll.addView(button);
