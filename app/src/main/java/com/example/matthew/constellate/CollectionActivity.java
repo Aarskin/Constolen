@@ -56,7 +56,7 @@ public class CollectionActivity extends ActionBarActivity
             final Constellation cons = c;
 
             Button button = new Button(this);
-            button.setText(""+c.ID+"");
+            button.setText(c.name);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

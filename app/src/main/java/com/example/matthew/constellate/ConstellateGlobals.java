@@ -10,6 +10,8 @@ public class ConstellateGlobals extends Application {
     public  String CONSTELLATION_ENDPOINT;
     public  String CONSTELLATION_BY_STAR_ENDPOINT;
 
+    public boolean WAITING;
+
     public User authenticatedUser = null;
     public Context context = null;
 }

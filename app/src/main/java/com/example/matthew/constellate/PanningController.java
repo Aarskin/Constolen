@@ -2,6 +2,7 @@ package com.example.matthew.constellate;
 
 import android.util.Log;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g3d.Material;
@@ -73,11 +74,6 @@ public class PanningController implements GestureListener
         if(index != -1) // Hit!
         {
             if (s1 != -1) {
-
-                if(constellation == null) {
-                    constellation = new Constellation("NAME_HERE", -1);
-                }
-
                 // Flesh out the pair
                 s2 = gazer.stars.get(index).ID_NUM;
                 v2 = gazer.locs[index];
@@ -141,29 +137,16 @@ public class PanningController implements GestureListener
     {
         if(gazer.DRAW) // Post the constellation we finished
         {
-            postConstTask  = new CallAPI(new CallAPI.ResponseListener()
+            if(constellation.pairs != null) // i.e. we actually made one
             {
-                @Override
-                public void responseReceived(String response)
-                {
-                    // Do something with it
-                    try
-                    {
-                        JSONObject responseJ = new JSONObject(response);
-                        int id = responseJ.getInt("constellation_id");
-                        constellation.ID = id;
-                    }
-                    catch(Exception e) { Log.d("EXCEPTION ", e.toString()); }
-                }
-            }, global.authenticatedUser.getToken());
-
-            String consJ = constellation.toString();
-            Log.d("POST", "JSON executed: " + consJ);
-            postConstTask.execute(global.API_URL, global.CONSTELLATION_ENDPOINT, "POST", "", consJ);
+                // Poll for name, post once we have it
+                KeyboardListener listener = new KeyboardListener(global, constellation);
+                Gdx.input.getTextInput(listener, "Constellation Name", "", null);
+            }
         }
         else
         {
-            constellation = new Constellation();
+            constellation = new Constellation("NAEM", -1);
         }
         gazer.DRAW = !gazer.DRAW;
         return true;

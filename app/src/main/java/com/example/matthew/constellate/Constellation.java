@@ -16,7 +16,7 @@ public class Constellation
 
     public Constellation()
     {
-
+        pairs = new ArrayList<StarPair>();
     }
 
     public Constellation(String n, int i)
@@ -33,7 +33,8 @@ public class Constellation
 
     public void addPair(StarPair pair)
     {
-        pairs.add(pair);
+        if(pair != null)
+            pairs.add(pair);
     }
 
     @Override

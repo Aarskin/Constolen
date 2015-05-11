@@ -38,6 +38,7 @@ public class ExploreActivity extends AndroidApplication {
         global.USER_ENDPOINT = getString(R.string.user_endpoint);
         global.CONSTELLATION_ENDPOINT = getString(R.string.const_endpoint);
         global.CONSTELLATION_BY_STAR_ENDPOINT = getString(R.string.const_by_star_endpoint);
+        global.WAITING = false;
 
         super.onCreate(savedInstanceState);
         loadConstellations();
