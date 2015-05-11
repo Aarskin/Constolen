@@ -1,5 +1,6 @@
 package com.example.matthew.constellate;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -57,6 +58,8 @@ class CallAPI extends AsyncTask<String, String, String> {
 
             // Get response code
             int status = connection.getResponseCode();
+
+            Log.d("STATS", ""+status);
 
             // Get response
             InputStreamReader responseStream;

@@ -81,6 +81,7 @@ public class CollectionActivity extends ActionBarActivity
             @Override
             public void responseReceived(String response)
             {
+                Log.d("RESPONSE", response);
                 try {
                     JSONObject OG_JSON = new JSONObject(response);
                     JSONArray constellationA = OG_JSON.getJSONArray("constellations");

@@ -19,6 +19,13 @@ public class MainMenuActivity extends Activity {
         // Assign global singleton
         global = ((ConstellateGlobals) this.getApplication());
         global.context = this;
+        global.API_URL = getString(R.string.api_url);
+        global.AUTHENTIACATION_ENDPOINT = getString(R.string.auth_endpoint);
+        global.USER_ENDPOINT = getString(R.string.user_endpoint);
+        global.CONSTELLATION_ENDPOINT = getString(R.string.const_endpoint);
+        global.CONSTELLATION_BY_STAR_ENDPOINT = getString(R.string.const_by_star_endpoint);
+        global.WAITING = false;
+
 
         // remove title
         requestWindowFeature(Window.FEATURE_NO_TITLE);

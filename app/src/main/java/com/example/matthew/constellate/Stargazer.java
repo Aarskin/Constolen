@@ -208,7 +208,7 @@ public class Stargazer implements ApplicationListener
         // Indicate Draw Mode
         if(DRAW) {
             batch.begin();
-            font.draw(batch, "TAP TO DRAW CONSTELLATIONS", cam.viewportWidth/2f, cam.viewportHeight);
+            font.draw(batch, "---------------------------------------------------------------------------------------------------------------------------------------------------", 0, cam.viewportHeight);
             batch.end();
         }
 
